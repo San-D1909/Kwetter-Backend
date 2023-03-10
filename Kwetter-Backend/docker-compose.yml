@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  authenticationapi:
+    image: ${DOCKER_REGISTRY-}authenticationapi
+    build:
+      context: .
+      dockerfile: AuthenticationAPI/AuthenticationAPI/Dockerfile
+    ports:
+        - "5020:443"
+        - "5050:80"
+
+  messageapi:
+    image: ${DOCKER_REGISTRY-}messageapi
+    build:
+      context: .
+      dockerfile: MessageAPI/MessageAPI/Dockerfile
+    ports:
+        - "5021:443"
+        - "5051:80"
+
+  timelineapi:
+    image: ${DOCKER_REGISTRY-}timelineapi
+    build:
+      context: .
+      dockerfile: TimelineAPI/TimelineAPI/Dockerfile
+    ports:
+        - "5022:443"
+        - "5052:80"
+
+  tweetapi:
+    image: ${DOCKER_REGISTRY-}tweetapi
+    build:
+      context: .
+      dockerfile: TweetAPI/TweetAPI/Dockerfile
+    ports:
+        - "5023:443"
+        - "5053:80"
+
+  userprofileapi:
+    image: ${DOCKER_REGISTRY-}userprofileapi
+    build:
+      context: .
+      dockerfile: UserProfileAPI/UserProfileAPI/Dockerfile
+    ports:
+        - "5024:443"
+        - "5054:80"

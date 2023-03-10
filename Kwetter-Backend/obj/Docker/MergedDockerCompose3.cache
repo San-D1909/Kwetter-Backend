@@ -1,0 +1,30 @@
+services:
+  authenticationapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: AuthenticationAPI/AuthenticationAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: authenticationapi
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  messageapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: MessageAPI/MessageAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: messageapi
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'

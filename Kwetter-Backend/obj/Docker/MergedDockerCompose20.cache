@@ -1,0 +1,192 @@
+services:
+  authenticationapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: AuthenticationAPI/AuthenticationAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: AuthenticationAPI
+      target: base
+    container_name: AuthenticationAPI
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: authenticationapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/AuthenticationAPI.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 5050
+      target: 80
+    - target: 80
+    - published: 5020
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\AuthenticationAPI\AuthenticationAPI:/app:rw
+    - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\sande\.nuget\packages:/root/.nuget/packages:ro
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src:rw
+  messageapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: MessageAPI/MessageAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: MessageAPI
+      target: base
+    container_name: MessageAPI
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: messageapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/MessageAPI.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 5051
+      target: 80
+    - target: 80
+    - published: 5021
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\MessageAPI\MessageAPI:/app:rw
+    - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\sande\.nuget\packages:/root/.nuget/packages:ro
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src:rw
+  timelineapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: TimelineAPI/TimelineAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: TimelineAPI
+      target: base
+    container_name: TimelineAPI
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: timelineapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/TimelineAPI.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 5052
+      target: 80
+    - target: 80
+    - published: 5022
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TimelineAPI\TimelineAPI:/app:rw
+    - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\sande\.nuget\packages:/root/.nuget/packages:ro
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src:rw
+  tweetapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: TweetAPI/TweetAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: TweetAPI
+      target: base
+    container_name: TweetAPI
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: tweetapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/TweetAPI.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 5053
+      target: 80
+    - target: 80
+    - published: 5023
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI:/app:rw
+    - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\sande\.nuget\packages:/root/.nuget/packages:ro
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src:rw
+  userprofileapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: UserProfileAPI/UserProfileAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: UserProfileAPI
+      target: base
+    container_name: UserProfileAPI
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: userprofileapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/UserProfileAPI.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 5054
+      target: 80
+    - target: 80
+    - published: 5024
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI:/app:rw
+    - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\sande\.nuget\packages:/root/.nuget/packages:ro
+    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src:rw
+version: '3.4'

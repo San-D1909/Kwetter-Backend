@@ -26,7 +26,7 @@ jobs:
       working-directory: Kwetter-Backend/AuthenticationAPI/
       run: dotnet build --no-restore -warnaserror
       
-  build-and-test-MessagingAPI:
+  build-and-test-MessageAPI:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -35,12 +35,12 @@ jobs:
       with:
         dotnet-version: 6.0.x
       
-    - name: Restore dependencies MessagingAPI
-      working-directory: Kwetter-Backend/MessagingAPI/
+    - name: Restore dependencies MessageAPI
+      working-directory: Kwetter-Backend/MessageAPI/
       run: dotnet restore
       
-    - name: Build MessagingAPI
-      working-directory: Kwetter-Backend/MessagingAPI/
+    - name: Build MessageAPI
+      working-directory: Kwetter-Backend/MessageAPI/
       run: dotnet build --no-restore -warnaserror
     
   build-and-test-UsersAPI:

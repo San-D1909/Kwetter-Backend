@@ -1,0 +1,96 @@
+name: .NET Core Desktop
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build-and-test-AuthenticationAPI:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Restore dependencies AuthenticationAPI
+      working-directory: Kwetter-Backend/AuthenticationAPI/
+      run: dotnet restore
+      
+    - name: Build AuthenticationAPI
+      working-directory: Kwetter-Backend/AuthenticationAPI/
+      run: dotnet build --no-restore -warnaserror
+      
+  build-and-test-MessagingAPI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Restore dependencies MessagingAPI
+      working-directory: Kwetter-Backend/MessagingAPI/
+      run: dotnet restore
+      
+    - name: Build MessagingAPI
+      working-directory: Kwetter-Backend/MessagingAPI/
+      run: dotnet build --no-restore -warnaserror
+    
+  build-and-test-UsersAPI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Restore dependencies UserProfileAPI
+      working-directory: Kwetter-Backend/UserProfileAPI/
+      run: dotnet restore
+      
+    - name: Build UserProfileAPI
+      working-directory: Kwetter-Backend/UserProfileAPI/
+      run: dotnet build --no-restore -warnaserror
+  
+  build-and-test-TweetAPI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Restore dependencies TweetAPI
+      working-directory: Kwetter-Backend/TweetAPI/
+      run: dotnet restore
+      
+    - name: Build TweetAPI
+      working-directory: Kwetter-Backend/TweetAPI/
+      run: dotnet build --no-restore -warnaserror
+      
+  build-and-test-TimelineAPI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Restore dependencies TimelineAPI
+      working-directory: Kwetter-Backend/TimelineAPI/
+      run: dotnet restore
+      
+    - name: Build TimelineAPI
+      working-directory: Kwetter-Backend/TimelineAPI/
+      run: dotnet build --no-restore -warnaserror
+    

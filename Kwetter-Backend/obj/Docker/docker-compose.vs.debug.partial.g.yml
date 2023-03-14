@@ -16,8 +16,8 @@ services:
     volumes:
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\AuthenticationAPI\AuthenticationAPI:/app
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src
-      - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\sande\.nuget\packages\:/root/.nuget/packages:ro
+      - C:\Users\Sander\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\Sander\.nuget\packages\:/root/.nuget/packages:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
@@ -43,8 +43,8 @@ services:
     volumes:
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\MessageAPI\MessageAPI:/app
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src
-      - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\sande\.nuget\packages\:/root/.nuget/packages:ro
+      - C:\Users\Sander\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\Sander\.nuget\packages\:/root/.nuget/packages:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
@@ -71,8 +71,8 @@ services:
     volumes:
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TimelineAPI\TimelineAPI:/app
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src
-      - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\sande\.nuget\packages\:/root/.nuget/packages:ro
+      - C:\Users\Sander\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\Sander\.nuget\packages\:/root/.nuget/packages:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
@@ -99,8 +99,8 @@ services:
     volumes:
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI:/app
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src
-      - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\sande\.nuget\packages\:/root/.nuget/packages:ro
+      - C:\Users\Sander\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\Sander\.nuget\packages\:/root/.nuget/packages:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
@@ -127,8 +127,8 @@ services:
     volumes:
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI:/app
       - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src
-      - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\sande\.nuget\packages\:/root/.nuget/packages:ro
+      - C:\Users\Sander\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\Sander\.nuget\packages\:/root/.nuget/packages:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 

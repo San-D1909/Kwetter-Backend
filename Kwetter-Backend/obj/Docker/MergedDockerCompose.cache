@@ -1,3 +1,4 @@
+name: dockercompose1686809543375624714
 services:
   authenticationapi:
     build:
@@ -5,12 +6,258 @@ services:
       dockerfile: AuthenticationAPI/AuthenticationAPI/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: https://+:443;http://+:80
+      ASPNETCORE_URLS: http://+:80
     image: authenticationapi
+    networks:
+      default: null
     ports:
-    - target: 80
-    - target: 443
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5050"
+      protocol: tcp
     volumes:
-    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
-    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
-version: '3.4'
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+  messageapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: MessageAPI/MessageAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: messageapi
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5051"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+  messagingdb:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 3306
+      published: "3308"
+      protocol: tcp
+    volumes:
+    - type: volume
+      source: messagingdata
+      target: /var/lib/mysql
+      volume: {}
+  messagingpma:
+    container_name: messagingpma
+    depends_on:
+      messagingdb:
+        condition: service_started
+    environment:
+      PMA_HOST: messagingdb
+    image: phpmyadmin/phpmyadmin
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "81"
+      protocol: tcp
+    restart: always
+  timelineapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: TimelineAPI/TimelineAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: timelineapi
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5052"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+  tweetapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: TweetAPI/TweetAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: tweetapi
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5053"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+  tweetdb:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 3306
+      published: "3307"
+      protocol: tcp
+    volumes:
+    - type: volume
+      source: tweetdata
+      target: /var/lib/mysql
+      volume: {}
+  tweetpma:
+    container_name: tweetpma
+    depends_on:
+      tweetdb:
+        condition: service_started
+    environment:
+      PMA_HOST: tweetdb
+    image: phpmyadmin/phpmyadmin
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "82"
+      protocol: tcp
+    restart: always
+  userpma:
+    container_name: userpma
+    depends_on:
+      usersdb:
+        condition: service_started
+    environment:
+      PMA_HOST: usersdb
+    image: phpmyadmin/phpmyadmin
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "80"
+      protocol: tcp
+    restart: always
+  userprofileapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: UserProfileAPI/UserProfileAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: userprofileapi
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5054"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+  usersdb:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 3306
+      published: "3309"
+      protocol: tcp
+    volumes:
+    - type: volume
+      source: usersdata
+      target: /var/lib/mysql
+      volume: {}
+networks:
+  default:
+    name: dockercompose1686809543375624714_default
+volumes:
+  messagingdata:
+    name: dockercompose1686809543375624714_messagingdata
+  tweetdata:
+    name: dockercompose1686809543375624714_tweetdata
+  usersdata:
+    name: dockercompose1686809543375624714_usersdata

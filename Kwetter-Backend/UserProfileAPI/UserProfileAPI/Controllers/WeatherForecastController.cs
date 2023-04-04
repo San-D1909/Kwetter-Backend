@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
+using System.Text;
 
 namespace UserProfileAPI.Controllers
 {
@@ -21,13 +23,21 @@ namespace UserProfileAPI.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            IConnectionFactory factory = new ConnectionFactory { HostName = "host.docker.internal", Port = 5672, Password = "guest", UserName = "guest" };
+            using (var connection = factory.CreateConnection())
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                IModel channel = connection.CreateModel();
+                // declare a queue
+                channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
+
+                // create a message
+                string message = "Hello, RabbitMQ!";
+                byte[] body = Encoding.Unicode.GetBytes(message);
+
+                // publish the message to the queue
+                channel.BasicPublish("userExchange", "userDemo", null, body);
+            }
+            return null;
         }
     }
 }

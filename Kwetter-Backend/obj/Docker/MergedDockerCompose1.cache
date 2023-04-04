@@ -1,3 +1,4 @@
+name: dockercompose1686809543375624714
 services:
   authenticationapi:
     build:
@@ -8,29 +9,455 @@ services:
         com.microsoft.visual-studio.project-name: AuthenticationAPI
       target: base
     container_name: AuthenticationAPI
-    entrypoint: tail -f /dev/null
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
-      ASPNETCORE_URLS: https://+:443;http://+:80
-      DOTNET_USE_POLLING_FILE_WATCHER: '1'
-      NUGET_FALLBACK_PACKAGES: ''
+      ASPNETCORE_URLS: http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
     image: authenticationapi:dev
     labels:
-      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/AuthenticationAPI.dll"'
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  ""'
       com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
         dotnet); then kill $$PID; fi"
       com.microsoft.visualstudio.debuggee.program: dotnet
       com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
     ports:
-    - target: 80
-    - target: 443
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5050"
+      protocol: tcp
     tty: true
     volumes:
-    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\AuthenticationAPI\AuthenticationAPI:/app:rw
-    - C:\Users\sande\vsdbg\vs2017u5:/remote_debugger:rw
-    - C:\Users\sande\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
-    - C:\Users\sande\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
-    - C:\Users\sande\.nuget\packages:/root/.nuget/packages:ro
-    - C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend:/src:rw
-version: '3.4'
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\AuthenticationAPI\AuthenticationAPI
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      target: /src
+      bind:
+        create_host_path: true
+  messageapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: MessageAPI/MessageAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: MessageAPI
+      target: base
+    container_name: MessageAPI
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: messageapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  ""'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5051"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\MessageAPI\MessageAPI
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      target: /src
+      bind:
+        create_host_path: true
+  messagingdb:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 3306
+      published: "3308"
+      protocol: tcp
+    volumes:
+    - type: volume
+      source: messagingdata
+      target: /var/lib/mysql
+      volume: {}
+  messagingpma:
+    container_name: messagingpma
+    depends_on:
+      messagingdb:
+        condition: service_started
+    environment:
+      PMA_HOST: messagingdb
+    image: phpmyadmin/phpmyadmin
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "81"
+      protocol: tcp
+    restart: always
+  timelineapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: TimelineAPI/TimelineAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: TimelineAPI
+      target: base
+    container_name: TimelineAPI
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: timelineapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  ""'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5052"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TimelineAPI\TimelineAPI
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      target: /src
+      bind:
+        create_host_path: true
+  tweetapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: TweetAPI/TweetAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: TweetAPI
+      target: base
+    container_name: TweetAPI
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: tweetapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  ""'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5053"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      target: /src
+      bind:
+        create_host_path: true
+  tweetdb:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 3306
+      published: "3307"
+      protocol: tcp
+    volumes:
+    - type: volume
+      source: tweetdata
+      target: /var/lib/mysql
+      volume: {}
+  tweetpma:
+    container_name: tweetpma
+    depends_on:
+      tweetdb:
+        condition: service_started
+    environment:
+      PMA_HOST: tweetdb
+    image: phpmyadmin/phpmyadmin
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "82"
+      protocol: tcp
+    restart: always
+  userpma:
+    container_name: userpma
+    depends_on:
+      usersdb:
+        condition: service_started
+    environment:
+      PMA_HOST: usersdb
+    image: phpmyadmin/phpmyadmin
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "80"
+      protocol: tcp
+    restart: always
+  userprofileapi:
+    build:
+      context: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      dockerfile: UserProfileAPI/UserProfileAPI/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: UserProfileAPI
+      target: base
+    container_name: UserProfileAPI
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: userprofileapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  ""'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5054"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Sander\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend
+      target: /src
+      bind:
+        create_host_path: true
+  usersdb:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 3306
+      published: "3309"
+      protocol: tcp
+    volumes:
+    - type: volume
+      source: usersdata
+      target: /var/lib/mysql
+      volume: {}
+networks:
+  default:
+    name: dockercompose1686809543375624714_default
+volumes:
+  messagingdata:
+    name: dockercompose1686809543375624714_messagingdata
+  tweetdata:
+    name: dockercompose1686809543375624714_tweetdata
+  usersdata:
+    name: dockercompose1686809543375624714_usersdata

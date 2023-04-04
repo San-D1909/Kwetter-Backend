@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Polly;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace TweetAPI.Controllers
 {
@@ -6,28 +10,46 @@ namespace TweetAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        ApplicationContext context;
+        public WeatherForecastController(ApplicationContext context)
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
+            this.context = context;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IActionResult> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            IConnectionFactory connectionFactory = new ConnectionFactory()
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                HostName = "host.docker.internal",
+                Port = 5672,
+                UserName = "guest",
+                Password = "guest",
+            };
+            using (IConnection connection = connectionFactory.CreateConnection())
+            {
+                IModel channel = connection.CreateModel();
+                channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
+
+                channel.QueueDeclare("user", true, false, false, null);
+                channel.QueueBind("user", "userExchange", "userDemo");
+
+                var consumer = new EventingBasicConsumer(channel);
+                // define a callback function for incoming messages
+                consumer.Received += (s, e) =>
+                {
+                    context.Tweet.Add(new Models.Tweet { Body = e.ToString(), CreatedAt = DateTime.Now, Header = "testheade3", IsArchived = false, IsDisabled = false, UserId = Guid.NewGuid() });
+                    context.SaveChanges();
+                };
+
+                channel.BasicConsume("user", true, consumer);
+            }
+            return Ok();
+        }
+        void Consumer_Received(object? sender, BasicDeliverEventArgs e)
+        {
+            context.Tweet.Add(new Models.Tweet { Body = "dit moet werken", CreatedAt = DateTime.Now, Header = "testheade3", IsArchived = false, IsDisabled = false, UserId = Guid.NewGuid() });
+            context.SaveChanges();
         }
     }
 }

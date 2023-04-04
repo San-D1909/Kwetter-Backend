@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: AuthenticationAPI/AuthenticationAPI/Dockerfile
     ports:
-        - "5020:443"
         - "5050:80"
 
   messageapi:
@@ -16,10 +15,7 @@ services:
       context: .
       dockerfile: MessageAPI/MessageAPI/Dockerfile
     ports:
-        - "5021:443"
         - "5051:80"
-    depends_on: 
-      - db
 
   timelineapi:
     image: ${DOCKER_REGISTRY-}timelineapi
@@ -27,10 +23,7 @@ services:
       context: .
       dockerfile: TimelineAPI/TimelineAPI/Dockerfile
     ports:
-        - "5022:443"
         - "5052:80"
-    depends_on: 
-      - db
 
   tweetapi:
     image: ${DOCKER_REGISTRY-}tweetapi
@@ -38,10 +31,7 @@ services:
       context: .
       dockerfile: TweetAPI/TweetAPI/Dockerfile
     ports:
-        - "5023:443"
         - "5053:80"
-    depends_on: 
-      - db
 
   userprofileapi:
     image: ${DOCKER_REGISTRY-}userprofileapi
@@ -49,30 +39,84 @@ services:
       context: .
       dockerfile: UserProfileAPI/UserProfileAPI/Dockerfile
     ports:
-        - "5024:443"
         - "5054:80"
-    depends_on: 
-      - db
 
-  db:
+  tweetdb:
     image: mariadb
     ports:
-        - "3306:3306"
+        - "3307:3306"
     environment:
         MYSQL_ROOT_PASSWORD: root
     volumes:
-        - dbdata:/var/lib/mysql
+        - tweetdata:/var/lib/mysql
 
-  pma:
+  messagingdb:
+    image: mariadb
+    ports:
+        - "3308:3306"
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+    volumes:
+        - messagingdata:/var/lib/mysql
+
+  usersdb:
+    image: mariadb
+    ports:
+        - "3309:3306"
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+    volumes:
+        - usersdata:/var/lib/mysql
+
+  userpma:
     depends_on: 
-     - db
+     - usersdb
     image: phpmyadmin/phpmyadmin  
-    container_name: pma
+    container_name: userpma
     restart: always
     ports:
      - '80:80'
     environment: 
-     PMA_HOST: db
-  
+     PMA_HOST: usersdb
+   
+  messagepma:
+    depends_on: 
+     - messagingdb
+    image: phpmyadmin/phpmyadmin  
+    container_name: messagepma
+    restart: always
+    ports:
+     - '81:80'
+    environment: 
+     PMA_HOST: messagingdb
+
+  tweetpma:
+    depends_on: 
+     - tweetdb
+    image: phpmyadmin/phpmyadmin  
+    container_name: tweetpma
+    restart: always
+    ports:
+     - '82:80'
+    environment: 
+     PMA_HOST: tweetdb
+
+  rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: 'rabbitmq'
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+            - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+        networks:
+            - rabbitmq_go_net
+networks:
+    rabbitmq_go_net:
+      driver: bridge
+
 volumes:
- dbdata:
+ usersdata:
+ tweetdata:
+ messagingdata:

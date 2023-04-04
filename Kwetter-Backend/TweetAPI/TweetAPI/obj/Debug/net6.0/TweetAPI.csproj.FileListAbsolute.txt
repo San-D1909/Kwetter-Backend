@@ -82,3 +82,7 @@ C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backe
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\obj\Debug\net6.0\TweetAPI.pdb
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\obj\Debug\net6.0\TweetAPI.genruntimeconfig.cache
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\obj\Debug\net6.0\ref\TweetAPI.dll
+C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\bin\Debug\net6.0\MySqlConnector.dll
+C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\bin\Debug\net6.0\Polly.dll
+C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\TweetAPI\TweetAPI\bin\Debug\net6.0\RabbitMQ.Client.dll

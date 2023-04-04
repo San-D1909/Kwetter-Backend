@@ -47,3 +47,4 @@ C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backe
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\obj\Debug\docker-compose.dcproj.CopyComplete
+C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\bin\Debug\RabbitMQ.Client.dll

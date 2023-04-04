@@ -1,5 +1,4 @@
-﻿
-namespace UserProfileAPI
+﻿namespace UserProfileAPI
 {
     using UserProfileAPI.Models;
     using Microsoft.EntityFrameworkCore;

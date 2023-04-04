@@ -85,3 +85,4 @@ C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backe
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI\obj\Debug\net6.0\UserProfileAPI.pdb
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI\obj\Debug\net6.0\UserProfileAPI.genruntimeconfig.cache
 C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI\obj\Debug\net6.0\ref\UserProfileAPI.dll
+C:\School\Leerjaar 3\Semester 6\Individueelproject\Kwetter-Backend\Kwetter-Backend\UserProfileAPI\UserProfileAPI\bin\Debug\net6.0\RabbitMQ.Client.dll

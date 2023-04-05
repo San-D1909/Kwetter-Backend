@@ -1,26 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using UserProfileAPI;
-using RabbitMQ.Client;
-using System.Text;
+using UserProfileAPI.Services.Interfaces;
+using UserProfileAPI.Services;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        IConnectionFactory factory = new ConnectionFactory { HostName = "host.docker.internal", Port = 5672, Password = "guest", UserName = "guest" };
-        var connection = factory.CreateConnection();
-        IModel channel = connection.CreateModel();
-        // declare a queue
-        channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
-
-        // create a message
-        string message = "Hello, RabbitMQ!";
-        byte[] body = Encoding.Unicode.GetBytes(message);
-
-        // publish the message to the queue
-        channel.BasicPublish("userExchange", "userDemo", null, body);
-
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -29,6 +16,7 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGen();
+        builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
         var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
         builder.Services.AddDbContext<ApplicationContext>(options =>
@@ -57,6 +45,13 @@ internal class Program
             });
         }
 
+        using (var scope = app.Services.CreateScope())
+        {//Create subscriber that listens to the queue.
+            var subscriberContext = scope.ServiceProvider
+            .GetRequiredService<ISubscriberService>();
+
+            subscriberContext.GetFromQueue();
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -75,10 +70,8 @@ internal class Program
 
         app.UseHttpsRedirection();
 
-
-        app.MapControllers();       
+        app.MapControllers();
 
         app.Run();
-
     }
 }

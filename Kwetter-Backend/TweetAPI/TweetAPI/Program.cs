@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Polly;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using TweetAPI;
 using TweetAPI.Models;
-using static System.Net.Mime.MediaTypeNames;
+using TweetAPI.Services;
+using TweetAPI.Services.Interfaces;
 
 internal class Program
 {
@@ -17,6 +16,7 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
         var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
         builder.Services.AddDbContext<ApplicationContext>(options =>
@@ -45,30 +45,13 @@ internal class Program
             });
         }
 
-        IConnectionFactory connectionFactory = new ConnectionFactory()
-        {
-            HostName = "host.docker.internal",
-            Port = 5672,
-            UserName = "guest",
-            Password = "guest",
-        };
-       IConnection connection = connectionFactory.CreateConnection();
+        using (var scope = app.Services.CreateScope())
+        {//Create subscriber that listens to the queue.
+                var subscriberContext = scope.ServiceProvider
+                .GetRequiredService<ISubscriberService>();
 
-            IModel channel = connection.CreateModel();
-        channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
-
-        channel.QueueDeclare("user", true, false, false, null);
-        channel.QueueBind("user", "userExchange", "userDemo");
-
-        var consumer = new EventingBasicConsumer(channel);
-        // define a callback function for incoming messages
-        consumer.Received += (model, ea) =>
-        {
-            var body = ea.Body.ToArray();
-            var message = Encoding.Unicode.GetString(body);
-            Console.WriteLine("Received message: {0}", message);
-        };
-        channel.BasicConsume("user", true, consumer);
+            subscriberContext.GetFromQueue();
+        }
 
 
         // Configure the HTTP request pipeline.
@@ -87,9 +70,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        
+
         app.Run();
-
-
     }
 }

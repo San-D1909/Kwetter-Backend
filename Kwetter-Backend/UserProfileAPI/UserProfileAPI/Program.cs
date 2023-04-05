@@ -8,6 +8,18 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        IConnectionFactory factory = new ConnectionFactory { HostName = "host.docker.internal", Port = 5672, Password = "guest", UserName = "guest" };
+        var connection = factory.CreateConnection();
+        IModel channel = connection.CreateModel();
+        // declare a queue
+        channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
+
+        // create a message
+        string message = "Hello, RabbitMQ!";
+        byte[] body = Encoding.Unicode.GetBytes(message);
+
+        // publish the message to the queue
+        channel.BasicPublish("userExchange", "userDemo", null, body);
 
         var builder = WebApplication.CreateBuilder(args);
 
@@ -57,8 +69,6 @@ internal class Program
             });
         }
 
-
-
         app.UseRouting();
 
         app.UseAuthorization();
@@ -66,9 +76,9 @@ internal class Program
         app.UseHttpsRedirection();
 
 
-        app.MapControllers();
-
+        app.MapControllers();       
 
         app.Run();
+
     }
 }

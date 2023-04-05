@@ -31,7 +31,7 @@ namespace UserProfileAPI.Controllers
                 channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
 
                 // create a message
-                string message = "Hello, RabbitMQ!";
+                string message = "Hello, RabbitMQ from endpoint!";
                 byte[] body = Encoding.Unicode.GetBytes(message);
 
                 // publish the message to the queue

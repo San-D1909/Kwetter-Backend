@@ -12,8 +12,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-
-
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
@@ -46,6 +44,33 @@ internal class Program
                 dbContext.Database.Migrate();
             });
         }
+
+        IConnectionFactory connectionFactory = new ConnectionFactory()
+        {
+            HostName = "host.docker.internal",
+            Port = 5672,
+            UserName = "guest",
+            Password = "guest",
+        };
+       IConnection connection = connectionFactory.CreateConnection();
+
+            IModel channel = connection.CreateModel();
+        channel.ExchangeDeclare("userExchange", ExchangeType.Topic, true);
+
+        channel.QueueDeclare("user", true, false, false, null);
+        channel.QueueBind("user", "userExchange", "userDemo");
+
+        var consumer = new EventingBasicConsumer(channel);
+        // define a callback function for incoming messages
+        consumer.Received += (model, ea) =>
+        {
+            var body = ea.Body.ToArray();
+            var message = Encoding.Unicode.GetString(body);
+            Console.WriteLine("Received message: {0}", message);
+        };
+        channel.BasicConsume("user", true, consumer);
+
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -62,8 +87,9 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
+        
         app.Run();
+
 
     }
 }

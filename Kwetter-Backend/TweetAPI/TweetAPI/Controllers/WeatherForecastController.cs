@@ -9,11 +9,11 @@ namespace TweetAPI.Controllers
     public class WeatherForecastController : ControllerBase
     {
         [HttpGet(Name = "GetWeatherForecast")]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             IPublisherService publisherService = new PublisherService();
             publisherService.Publish();
-            return null;
+            return Ok();
         }
     }
 }

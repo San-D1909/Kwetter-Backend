@@ -11,11 +11,11 @@ namespace UserProfileAPI.Controllers
     public class WeatherForecastController : ControllerBase
     {
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
             IPublisherService publisherService = new PublisherService();
             publisherService.Publish();
-            return null;
+            return Ok();
         }
     }
 }

@@ -50,7 +50,7 @@ internal class Program
                 var subscriberContext = scope.ServiceProvider
                 .GetRequiredService<ISubscriberService>();
 
-            subscriberContext.GetFromQueue();
+            subscriberContext.GetDeletedFromQueue();
         }
 
 

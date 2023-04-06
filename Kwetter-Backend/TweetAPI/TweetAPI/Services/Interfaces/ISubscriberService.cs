@@ -2,6 +2,6 @@
 {
     public interface ISubscriberService
     {
-        public void GetFromQueue();
+        public void GetDeletedFromQueue();
     }
 }

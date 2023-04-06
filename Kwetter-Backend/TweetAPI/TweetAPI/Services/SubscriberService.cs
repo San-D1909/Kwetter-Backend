@@ -2,15 +2,23 @@
 using RabbitMQ.Client;
 using System.Text;
 using TweetAPI.Services.Interfaces;
+using TweetAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TweetAPI.Services
 {
     public class SubscriberService : ISubscriberService
     {
-        public void GetFromQueue()
+        private readonly ApplicationContext context;
+
+        public SubscriberService(ApplicationContext context)
+        {
+            this.context = context;
+        }
+        public void GetDeletedFromQueue()
         {
             string exchange = "userExchange";
-            string routingKey = "userDemo";
+            string routingKey = "userDelete";
             string queue = "user";
 
             IConnectionFactory connectionFactory = new ConnectionFactory()
@@ -32,11 +40,13 @@ namespace TweetAPI.Services
             var consumer = new EventingBasicConsumer(channel);
 
             // define a callback function for incoming messages
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
-                var message = Encoding.Unicode.GetString(body);
-                Console.WriteLine("Received message: {0}", message);
+                Guid message = Guid.Parse(Encoding.Unicode.GetString(body));
+                var tweet = await this.context.Tweet.Where(x => x.TweetId == message).FirstAsync();
+                this.context.Tweet.Remove(tweet);
+                await this.context.SaveChangesAsync();
             };
             channel.BasicConsume(queue, true, consumer);
             return;

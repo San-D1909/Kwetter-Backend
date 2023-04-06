@@ -1,7 +1,9 @@
-﻿namespace UserProfileAPI.Services.Interfaces
+﻿using UserProfileAPI.Models;
+
+namespace UserProfileAPI.Services.Interfaces
 {
     public interface IPublisherService
     {
-        public void Publish();
+        public void DeleteUser(Guid userID);
     }
 }

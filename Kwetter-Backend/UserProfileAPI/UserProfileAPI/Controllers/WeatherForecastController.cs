@@ -14,7 +14,7 @@ namespace UserProfileAPI.Controllers
         public IActionResult Get()
         {
             IPublisherService publisherService = new PublisherService();
-            publisherService.Publish();
+            publisherService.DeleteUser(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
             return Ok();
         }
     }

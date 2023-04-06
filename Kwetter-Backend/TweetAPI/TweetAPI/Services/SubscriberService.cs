@@ -7,8 +7,6 @@ namespace TweetAPI.Services
 {
     public class SubscriberService : ISubscriberService
     {
-        IConnection connection;
-
         public void GetFromQueue()
         {
             string exchange = "userExchange";
@@ -23,7 +21,7 @@ namespace TweetAPI.Services
                 Password = "guest",
             };
 
-            this.connection = connectionFactory.CreateConnection();
+            IConnection connection = connectionFactory.CreateConnection();
 
             IModel channel = connection.CreateModel();
             channel.ExchangeDeclare(exchange, ExchangeType.Topic, true);

@@ -5,7 +5,7 @@ using TweetAPI.Models;
 namespace TweetAPI.Controllers
 {
     [ApiController]
-    [Route("api/Tweets/[controller]")]
+    [Route("api/tweetapi/[controller]")]
     public class TweetsController : Controller
     {
         private readonly ApplicationContext context;
@@ -18,7 +18,26 @@ namespace TweetAPI.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            return this.Ok(await this.context.Tweet.ToListAsync());
+            try
+            {
+                if (this.context == null)
+                {
+                    return this.BadRequest("Error: Database context is null.");
+                }
+
+                var tweets = await this.context.Tweet.ToListAsync();
+
+                if (tweets == null || !tweets.Any())
+                {
+                    return this.NotFound("No tweets found.");
+                }
+
+                return this.Ok(tweets);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
         }
 
         [HttpGet("{TweetId:guid}")]

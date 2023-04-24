@@ -5,7 +5,7 @@ using UserProfileAPI.Models;
 namespace UserProfileAPI.Controllers
 {
     [ApiController]
-    [Route("api/Friends/[controller]")]
+    [Route("api/userprofileapi/[controller]")]
     public class FriendController : Controller
     {
         private readonly ApplicationContext context;

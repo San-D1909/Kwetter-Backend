@@ -1,0 +1,59 @@
+{
+  "Routes": [
+    // Authentication API
+    {
+      "DownstreamPathTemplate": "/api/authenticationapi/{catchall}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 5056  
+        }
+      ],
+      "UpstreamPathTemplate": "/api/authenticationapi/{catchall}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    // Channels API
+    {
+      "DownstreamPathTemplate": "/api/tweetapi/{catchall}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 5053
+        }
+      ],
+      "UpstreamPathTemplate": "/api/tweetapi/{catchall}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    // Messaging API
+    {
+      "DownstreamPathTemplate": "/api/messageapi/{catchall}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 5051
+        }
+      ],
+      "UpstreamPathTemplate": "/api/messageapi/{catchall}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    },
+    // Users API
+    {
+      "DownstreamPathTemplate": "/api/userprofileapi/{catchall}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 5054
+        }
+      ],
+      "UpstreamPathTemplate": "/api/userprofileapi/{catchall}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5055"
+  }
+}

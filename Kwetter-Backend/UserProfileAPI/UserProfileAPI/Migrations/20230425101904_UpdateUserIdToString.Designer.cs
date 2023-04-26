@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserProfileAPI;
 
@@ -10,9 +11,11 @@ using UserProfileAPI;
 namespace UserProfileAPI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230425101904_UpdateUserIdToString")]
+    partial class UpdateUserIdToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +48,6 @@ namespace UserProfileAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Bio")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("LastLogin")

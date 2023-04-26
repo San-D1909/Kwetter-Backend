@@ -6,7 +6,7 @@
     {
         [Key]
         public Guid FriendId { get; set; }
-        public Guid UserId { get; set; }
-        public Guid FriendsWith { get; set; }
+        public string? UserId { get; set; }
+        public string? FriendsWith { get; set; }
     }
 }

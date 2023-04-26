@@ -27,8 +27,8 @@ namespace UserProfileAPI.Controllers
             return this.Ok(await this.context.Friend.Where(x => x.FriendId == FriendId).FirstOrDefaultAsync());
         }
         
-        [HttpGet("GetFriendsByUserId/{UserId:guid}")]
-        public async Task<IActionResult> GetFriendsByUserId(Guid UserId)
+        [HttpGet("GetFriendsByUserId/{UserId}")]
+        public async Task<IActionResult> GetFriendsByUserId(string UserId)
         {
             return this.Ok(await this.context.Friend.Where(x => x.UserId == UserId).FirstOrDefaultAsync());
         }

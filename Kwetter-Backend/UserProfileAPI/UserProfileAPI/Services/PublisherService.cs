@@ -6,7 +6,7 @@ namespace UserProfileAPI.Services
 {
     public class PublisherService : IPublisherService
     {
-        public void DeleteUser(Guid userID)
+        public void DeleteUser(string userID)
         {
             string exchange = "userExchange";
             string routingKey = "userDelete";

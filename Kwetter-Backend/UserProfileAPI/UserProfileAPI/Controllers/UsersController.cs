@@ -21,18 +21,30 @@ namespace UserProfileAPI.Controllers
             return this.Ok(await this.context.User.ToListAsync());
         }
 
-        [HttpGet("{UserId:guid}")]
-        public async Task<IActionResult> GetById(Guid UserId)
+        [HttpGet("{UserId}")]
+        public async Task<IActionResult> GetById(string UserId)
         {
             return this.Ok(await this.context.User.Where(x => x.UserId == UserId).FirstOrDefaultAsync());
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create(User User)
+        public async Task<IActionResult> Create(User user)
         {
-            await this.context.User.AddAsync(User);
+            if(user.UserId is null)
+            {
+                return BadRequest();
+            }
+            var dbUser = this.context.User.Where(x=>x.UserId == user.UserId).FirstOrDefault();
+            if (dbUser != null)
+            {
+                dbUser.LastLogin = DateTime.Now;
+                await this.context.SaveChangesAsync();
+                return this.Ok(dbUser);
+            }
+            user.AddedAt = DateTime.Now;
+            await this.context.User.AddAsync(user);
             await this.context.SaveChangesAsync();
-            return this.Ok(User);
+            return this.Ok(user);
         }
 
         [HttpPut("")]
@@ -43,8 +55,8 @@ namespace UserProfileAPI.Controllers
             return this.Ok(User);
         }
 
-        [HttpDelete("{UserId:guid}")]
-        public async Task<IActionResult> Delete(Guid UserId)
+        [HttpDelete("{UserId}")]
+        public async Task<IActionResult> Delete(string UserId)
         {
             var User = await this.context.User.Where(x => x.UserId == UserId).FirstAsync();
             this.context.User.Remove(User);

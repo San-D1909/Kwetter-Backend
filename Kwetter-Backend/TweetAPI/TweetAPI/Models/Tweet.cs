@@ -6,7 +6,7 @@
     {
         [Key]
         public Guid TweetId { get; set; }
-        public Guid? UserId { get; set; }
+        public string? UserId { get; set; }
         public string? Header { get; set; }
         public string? Body { get; set; }
         public bool? IsDisabled { get; set; }

@@ -45,13 +45,22 @@ namespace TweetAPI.Controllers
         {
             return this.Ok(await this.context.Tweet.Where(x => x.TweetId == TweetId).FirstOrDefaultAsync());
         }
+        
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUser(string? userId)
+        {
+            return this.Ok(await this.context.Tweet.Where(x => x.UserId == userId).ToListAsync());
+        }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create(Tweet Tweet)
+        public async Task<IActionResult> Create(Tweet tweet)
         {
-            await this.context.Tweet.AddAsync(Tweet);
+            tweet.IsArchived = false;
+            tweet.IsDisabled = false;
+            tweet.CreatedAt = DateTime.Now;
+            await this.context.Tweet.AddAsync(tweet);
             await this.context.SaveChangesAsync();
-            return this.Ok(Tweet);
+            return this.Ok(tweet);
         }
 
         [HttpPut("")]

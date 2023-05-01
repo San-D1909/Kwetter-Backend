@@ -15,8 +15,8 @@ namespace TweetAPI.Controllers
             this.context = context;
         }
 
-        [HttpGet("")]
-        public async Task<IActionResult> Get()
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(string? userId)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace TweetAPI.Controllers
                     return this.BadRequest("Error: Database context is null.");
                 }
 
-                var tweets = await this.context.Tweet.ToListAsync();
+                var tweets = await this.context.Tweet.Where(x => x.UserId != userId).OrderByDescending(x => x.CreatedAt).ToListAsync();
 
                 if (tweets == null || !tweets.Any())
                 {
@@ -49,7 +49,7 @@ namespace TweetAPI.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUser(string? userId)
         {
-            return this.Ok(await this.context.Tweet.Where(x => x.UserId == userId).ToListAsync());
+            return this.Ok(await this.context.Tweet.Where(x => x.UserId == userId).OrderByDescending(x=>x.CreatedAt).ToListAsync());
         }
 
         [HttpPost("")]

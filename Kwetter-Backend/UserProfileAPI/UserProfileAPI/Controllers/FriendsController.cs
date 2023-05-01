@@ -27,10 +27,56 @@ namespace UserProfileAPI.Controllers
             return this.Ok(await this.context.Friend.Where(x => x.FriendId == FriendId).FirstOrDefaultAsync());
         }
         
-        [HttpGet("GetFriendsByUserId/{UserId}")]
-        public async Task<IActionResult> GetFriendsByUserId(string UserId)
+        [HttpGet("GetFollowingByUserId/{UserId}")]
+        public async Task<IActionResult> GetFollowingByUserId(string UserId)
         {
-            return this.Ok(await this.context.Friend.Where(x => x.UserId == UserId).FirstOrDefaultAsync());
+            try
+            {
+                if (this.context == null)
+                {
+                    return this.BadRequest("Error: Database context is null.");
+                }
+
+              
+                var result = await this.context.Friend.Where(x => x.UserId == UserId).ToListAsync();
+
+                if (result == null || !result.Any())
+                {
+                    return this.NotFound(new { error = "No data found", message = "The requested resource was not found in the database." });
+                }
+
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+        }
+        
+        [HttpGet("GetFollowersByUserId/{UserId}")]
+        public async Task<IActionResult> GetFollowersByUserId(string UserId)
+        {
+            try
+            {
+                if (this.context == null)
+                {
+                    return this.BadRequest("Error: Database context is null.");
+                }
+
+
+                var result = await this.context.Friend.Where(x => x.FriendsWith == UserId).ToListAsync();
+
+                if (result == null || !result.Any())
+                {
+                    return this.NotFound(new { error = "No data found", message = "The requested resource was not found in the database." });
+                }
+
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
         }
 
         [HttpPost("")]

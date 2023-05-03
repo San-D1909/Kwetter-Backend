@@ -95,10 +95,10 @@ namespace UserProfileAPI.Controllers
             return this.Ok(Friend);
         }
 
-        [HttpDelete("{FriendId:guid}")]
-        public async Task<IActionResult> Delete(Guid FriendId)
+        [HttpDelete("{UserId}/{FriendId}")]
+        public async Task<IActionResult> Delete(string UserId,string FriendId)
         {
-            var Friend = await this.context.Friend.Where(x => x.FriendId == FriendId).FirstAsync();
+            var Friend = await this.context.Friend.Where(x => x.UserId == UserId && x.FriendsWith == FriendId).FirstAsync();
             this.context.Friend.Remove(Friend);
             return this.Ok(await this.context.SaveChangesAsync());
         }

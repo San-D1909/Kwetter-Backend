@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserProfileAPI.Models;
+using UserProfileAPI.Services;
 
 namespace UserProfileAPI.Controllers
 {
@@ -59,8 +60,14 @@ namespace UserProfileAPI.Controllers
         public async Task<IActionResult> Delete(string UserId)
         {
             var User = await this.context.User.Where(x => x.UserId == UserId).FirstAsync();
-            this.context.User.Remove(User);
-            return this.Ok(await this.context.SaveChangesAsync());
+            if (User != null)
+            {
+                this.context.User.Remove(User);
+                PublisherService publisherService = new PublisherService();
+                publisherService.DeleteUser(UserId);
+                return this.Ok(await this.context.SaveChangesAsync());
+            }
+            return NotFound();
         }
     }
 }

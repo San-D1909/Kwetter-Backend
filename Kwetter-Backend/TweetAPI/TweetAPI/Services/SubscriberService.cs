@@ -4,17 +4,19 @@ using System.Text;
 using TweetAPI.Services.Interfaces;
 using TweetAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TweetAPI.Services
 {
     public class SubscriberService : ISubscriberService
     {
-        private readonly ApplicationContext context;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
-        public SubscriberService(ApplicationContext context)
+        public SubscriberService(IServiceScopeFactory serviceScopeFactory)
         {
-            this.context = context;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
+
         public void GetDeletedFromQueue()
         {
             string exchange = "userExchange";
@@ -43,11 +45,24 @@ namespace TweetAPI.Services
             consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
-                Guid message = Guid.Parse(Encoding.Unicode.GetString(body));
-                var tweet = await this.context.Tweet.Where(x => x.TweetId == message).FirstAsync();
-                this.context.Tweet.Remove(tweet);
-                await this.context.SaveChangesAsync();
+                string message = Encoding.Unicode.GetString(body);
+
+                using (var scope = serviceScopeFactory.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                    var tweets = await dbContext.Tweet.Where(x => x.UserId == message).ToListAsync();
+
+                    if (tweets != null && tweets.Count() != 0)
+                    {
+                        foreach (var x in tweets)
+                        {
+                            dbContext.Tweet.Remove(x);
+                        }
+                        await dbContext.SaveChangesAsync();
+                    }
+                }
             };
+
             channel.BasicConsume(queue, true, consumer);
             return;
         }

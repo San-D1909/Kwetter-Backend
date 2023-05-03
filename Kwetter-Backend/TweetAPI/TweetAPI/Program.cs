@@ -19,9 +19,12 @@ internal class Program
         builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
         var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
-        builder.Services.AddDbContext<ApplicationContext>(options =>
-        options.UseMySql(cs, ServerVersion.AutoDetect(cs)));
 
+        builder.Services.AddDbContext<ApplicationContext>(options =>
+            options.UseMySql(cs, ServerVersion.AutoDetect(cs)));
+
+        builder.Services.AddScoped<ApplicationContext>();
+        
         var app = builder.Build();
 
         // Create polly policy for database connection:

@@ -7,13 +7,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 5056  
+          "Port": 5056
         }
       ],
       "UpstreamPathTemplate": "/api/authenticationapi/{catchall}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
-    // Channels API
+    // Tweetapi API
     {
       "DownstreamPathTemplate": "/api/tweetapi/{catchall}",
       "DownstreamScheme": "http",

@@ -403,3 +403,4 @@ obj/
 .ionide
 
 .idea/
+Kwetter-Backend/.env

@@ -404,3 +404,4 @@ obj/
 
 .idea/
 Kwetter-Backend/.env
+*.env

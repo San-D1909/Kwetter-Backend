@@ -109,9 +109,9 @@ jobs:
           
       - name: Build and analyze TweetAPI
         run: |
-          cd Kwetter-Backend\TweetAPI
+          cd Kwetter-Backend/TweetAPI
           dotnet build
-          dotnet sonarscanner begin /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /k:"Kwetter-Backend\TweetAPI\TweetAPI.sln"
+          dotnet sonarscanner begin /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /k:"Kwetter-Backend/TweetAPI\TweetAPI.sln"
           dotnet build
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
           

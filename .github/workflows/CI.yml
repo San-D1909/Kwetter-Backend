@@ -109,3 +109,28 @@ jobs:
         uses: JetBrains/qodana-action@v2023.1.0
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_PROPERTIES: "-Dqodana.net.solution=TimelineAPI"
+          
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.1.0
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_PROPERTIES: "-Dqodana.net.solution=AuthenticationAPI"
+
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.1.0
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_PROPERTIES: "-Dqodana.net.solution=TweetAPI"
+                    
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.1.0
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_PROPERTIES: "-Dqodana.net.solution=TimelineAPI"
+                    
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.1.0
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_PROPERTIES: "-Dqodana.net.solution=UserProfileAPI"

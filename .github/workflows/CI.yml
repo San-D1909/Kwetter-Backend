@@ -111,6 +111,7 @@ jobs:
 
       - name: SonarQube analysis 
         run: |
+          ls
           dotnet sonarscanner begin /k:"San-D1909_Kwetter-Backend_Kwetter-Backend_TweetAPI.sln" /o:"oneblinq1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

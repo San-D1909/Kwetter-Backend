@@ -107,7 +107,7 @@ jobs:
       
       - name: Install SonarScanner
         run: |
-        dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-sonarscanner
 
       - name: SonarQube analysis 
         run: |

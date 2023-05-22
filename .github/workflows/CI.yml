@@ -94,43 +94,23 @@ jobs:
       working-directory: Kwetter-Backend/TimelineAPI/
       run: dotnet build --no-restore -warnaserror
 
-  qodana_scan:
-    name: Qodana Scan
+  sonarqube_analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          fetch-depth: 0
-
-      - name: Qodana Scan TimelineAPI
-        uses: JetBrains/qodana-action@v2023.1.0
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=TimelineAPI.sln"
+          java-version: '11'
           
-      - name: Qodana Scan AuthenticationAPI
-        uses: JetBrains/qodana-action@v2023.1.0
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=AuthenticationAPI.sln"
-
-      - name: Qodana Scan TweetAPI
-        uses: JetBrains/qodana-action@v2023.1.0
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=TweetAPI.sln"
-                    
-      - name: Qodana Scan UserProfileAPI
-        uses: JetBrains/qodana-action@v2023.1.0
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=UserProfileAPI.sln"
-                    
-      - name: Qodana Scan MessageAPI
-        uses: JetBrains/qodana-action@v2023.1.0
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=MessageAPI.sln"
+      - name: Build and analyze TweetAPI
+        run: |
+          cd Kwetter-Backend\TweetAPI
+          dotnet build
+          dotnet sonarscanner begin /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /k:"Kwetter-Backend\TweetAPI\TweetAPI.sln"
+          dotnet build
+          dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          

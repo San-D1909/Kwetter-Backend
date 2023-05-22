@@ -28,7 +28,7 @@ namespace TweetAPI.Services
                 HostName = "host.docker.internal",
                 Port = 5672,
                 UserName = "guest",
-                Password = "guest",
+                Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");,
             };
 
             IConnection connection = connectionFactory.CreateConnection();

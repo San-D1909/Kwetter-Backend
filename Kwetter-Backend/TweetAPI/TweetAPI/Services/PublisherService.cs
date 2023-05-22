@@ -11,7 +11,7 @@ namespace TweetAPI.Services
             string routingKey = "tweetDemo";
             string message = "Hello, RabbitMQ! From TweetService";
 
-            IConnectionFactory factory = new ConnectionFactory { HostName = "host.docker.internal", Port = 5672, Password = "guest", UserName = "guest" };
+            IConnectionFactory factory = new ConnectionFactory { HostName = "host.docker.internal", Port = 5672, Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"), UserName = "guest" };
             var connection = factory.CreateConnection();
             IModel channel = connection.CreateModel();
             // declare a queue

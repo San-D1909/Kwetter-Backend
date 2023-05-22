@@ -18,9 +18,9 @@ internal class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
-        var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
+/*        var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
         builder.Services.AddDbContext<ApplicationContext>(options =>
-        options.UseMySql(cs, ServerVersion.AutoDetect(cs)));
+        options.UseMySql(cs, ServerVersion.AutoDetect(cs)));*/
 
         var app = builder.Build();
 
@@ -32,7 +32,7 @@ internal class Program
                 Console.WriteLine("Could not connect to database, retrying");
             });
 
-        // Migrate latest database changes during startup
+/*        // Migrate latest database changes during startup
         using (var scope = app.Services.CreateScope())
         {
             // Here is the migration executed inside the polly policy
@@ -43,7 +43,7 @@ internal class Program
 
                 dbContext.Database.Migrate();
             });
-        }
+        }*/
 
         using (var scope = app.Services.CreateScope())
         {//Create subscriber that listens to the queue.

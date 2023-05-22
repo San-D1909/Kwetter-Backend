@@ -19,7 +19,7 @@ namespace TweetAPI.Services
 
         public void GetDeletedFromQueue()
         {
-            string exchange = "userExchange";
+      /*      string exchange = "userExchange";
             string routingKey = "userDelete";
             string queue = "user";
 
@@ -28,7 +28,7 @@ namespace TweetAPI.Services
                 HostName = "host.docker.internal",
                 Port = 5672,
                 UserName = "guest",
-                Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");,
+                Password = "guest",
             };
 
             IConnection connection = connectionFactory.CreateConnection();
@@ -65,6 +65,7 @@ namespace TweetAPI.Services
 
             channel.BasicConsume(queue, true, consumer);
             return;
-        }
+        */
+            }
     }
 }

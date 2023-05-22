@@ -9,7 +9,7 @@ namespace UserProfileAPI.Services
     {
         public void GetFromQueue()
         {
-            string exchange = "TweetExchange";
+/*            string exchange = "TweetExchange";
             string routingKey = "tweetDemo";
             string queue = "tweet";
 
@@ -18,7 +18,7 @@ namespace UserProfileAPI.Services
                 HostName = "host.docker.internal",
                 Port = 5672,
                 UserName = "guest",
-                Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"),
+                Password = "guest",
             };
             IConnection connection = connectionFactory.CreateConnection();
 
@@ -37,7 +37,7 @@ namespace UserProfileAPI.Services
                 Console.WriteLine("Received message: {0}", message);
             };
             channel.BasicConsume(queue, true, consumer);
-            return;
+            return;*/
         }
     }
 }

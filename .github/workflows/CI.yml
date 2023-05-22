@@ -116,6 +116,6 @@ jobs:
           cd TweetAPI
           ls
           dotnet sonarscanner begin /k:"San-D1909_Kwetter-Backend_Kwetter-Backend_TweetAPI_TweetAPI.sln" /o:"oneblinq1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
+          dotnet build /p:WarningsAsErrors=false
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
           

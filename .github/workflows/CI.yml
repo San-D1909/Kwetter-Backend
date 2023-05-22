@@ -100,20 +100,18 @@ jobs:
         with:
           fetch-depth: 0 
 
-      - name: Setup .net
-       uses: actions/setup-dotnet@v1
-       with:
-        dotnet-version: '6.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
       
       - name: Install SonarScanner
         run: |
         dotnet tool install --global dotnet-sonarscanner
 
       - name: SonarQube analysis 
-        env:
-          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}" 
         run: |
-          dotnet sonarscanner begin /d:sonar.login="${{ env.SONAR_TOKEN }}" /k:"<Kwetter-Backend/TweetAPI/>" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet sonarscanner begin /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /k:"<Kwetter-Backend/TweetAPI/>" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
-          dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+          dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
           

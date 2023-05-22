@@ -109,28 +109,28 @@ jobs:
         uses: JetBrains/qodana-action@v2023.1.0
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=TimelineAPI"
+          QODANA_PROPERTIES: "-qodana.net.solution=Kwetter-Backend/TimelineAPI/TimelineAPI.sln"
           
       - name: Qodana Scan AuthenticationAPI
         uses: JetBrains/qodana-action@v2023.1.0
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=AuthenticationAPI"
+          QODANA_PROPERTIES: "-qodana.net.solution=Kwetter-Backend/AuthenticationAPI/AuthenticationAPI.sln"
 
       - name: Qodana Scan TweetAPI
         uses: JetBrains/qodana-action@v2023.1.0
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=TweetAPI"
+          QODANA_PROPERTIES: "-qodana.net.solution=Kwetter-Backend/TweetAPI/TweetAPI.sln"
                     
       - name: Qodana Scan UserProfileAPI
         uses: JetBrains/qodana-action@v2023.1.0
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=UserProfileAPI"
+          QODANA_PROPERTIES: "-qodana.net.solution=Kwetter-Backend/UserProfileAPI/UserProfileAPI.sln"
                     
       - name: Qodana Scan MessageAPI
         uses: JetBrains/qodana-action@v2023.1.0
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          QODANA_PROPERTIES: "-qodana.net.solution=MessageAPI"
+          QODANA_PROPERTIES: "-qodana.net.solution=Kwetter-Backend/MessageAPI/MessageAPI.sln"

@@ -93,4 +93,19 @@ jobs:
     - name: Build TimelineAPI
       working-directory: Kwetter-Backend/TimelineAPI/
       run: dotnet build --no-restore -warnaserror
-    
+
+  qodana_scan:
+    name: Qodana Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.1.0
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}

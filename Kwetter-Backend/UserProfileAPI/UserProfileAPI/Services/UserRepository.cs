@@ -18,7 +18,7 @@ namespace UserProfileAPI.Services
             return await this.context.User.ToListAsync();
         }
 
-        public async Task<User> GetUserById(string userId)
+        public async Task<User?> GetUserById(string userId)
         {
             return await this.context.User.FirstOrDefaultAsync(x => x.UserId == userId);
         }

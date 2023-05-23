@@ -25,5 +25,6 @@ jobs:
 
       - name: Build and push Docker Compose 
         run: | 
+          cd Kwetter-Backend
           docker-compose build 
           docker-compose push

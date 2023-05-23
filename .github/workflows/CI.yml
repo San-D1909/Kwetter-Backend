@@ -76,8 +76,12 @@ jobs:
       working-directory: Kwetter-Backend/TweetAPI/
       run: dotnet build --no-restore -warnaserror
        
-    - name: Run unit tests
-      working-directory: UnitTestTweets
+    - name: Restore dependencies UnitTestTweets
+      working-directory: Kwetter-Backend/UnitTestTweets/
+      run: dotnet restore
+      
+    - name: Build and Test UnitTestTweets
+      working-directory: Kwetter-Backend/UnitTestTweets/
       run: dotnet test --no-restore --verbosity normal
       
   build-and-test-TimelineAPI:

@@ -75,14 +75,6 @@ jobs:
     - name: Build TweetAPI
       working-directory: Kwetter-Backend/TweetAPI/
       run: dotnet build --no-restore -warnaserror
-       
-    - name: Restore dependencies UnitTestTweets
-      working-directory: UnitTestTweets/
-      run: dotnet restore
-      
-    - name: Build and Test UnitTestTweets
-      working-directory: UnitTestTweets/
-      run: dotnet test --no-restore --verbosity normal
       
   build-and-test-TimelineAPI:
     runs-on: ubuntu-latest
@@ -100,6 +92,23 @@ jobs:
     - name: Build TimelineAPI
       working-directory: Kwetter-Backend/TimelineAPI/
       run: dotnet build --no-restore -warnaserror
+
+  RunTests-Tweets:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+       
+    - name: Restore dependencies UnitTestTweets
+      working-directory: UnitTestTweets/
+      run: dotnet restore
+      
+    - name: Build and Test UnitTestTweets
+      working-directory: UnitTestTweets/
+      run: dotnet test --no-restore --verbosity normal
 
   sonarqube_analysis:
     runs-on: ubuntu-latest

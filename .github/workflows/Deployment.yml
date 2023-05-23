@@ -26,6 +26,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          file: Kwetter-Backend/TweetAPI/TweetAPI/Dockerfile
+          file: Kwetter-Backend\TweetAPI\TweetAPI\Dockerfile
           push: true
           tags: sander1909/tweetapi:latest

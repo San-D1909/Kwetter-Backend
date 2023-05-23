@@ -1,73 +1,80 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UserProfileAPI.Models;
 using UserProfileAPI.Services;
+using UserProfileAPI.Services.Interfaces;
 
 namespace UserProfileAPI.Controllers
 {
     [ApiController]
     [Route("api/userprofileapi/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
-        private readonly ApplicationContext context;
+        private readonly IUsersRepository usersRepository;
 
-        public UsersController(ApplicationContext context)
+        public UsersController(IUsersRepository usersRepository)
         {
-            this.context = context;
+            this.usersRepository = usersRepository;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            return this.Ok(await this.context.User.ToListAsync());
+            var users = await this.usersRepository.GetUsers();
+            return Ok(users);
         }
 
-        [HttpGet("{UserId}")]
-        public async Task<IActionResult> GetById(string UserId)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetById(string userId)
         {
-            return this.Ok(await this.context.User.Where(x => x.UserId == UserId).FirstOrDefaultAsync());
+            var user = await this.usersRepository.GetUserById(userId);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Create(User user)
         {
-            if(user.UserId is null)
-            {
+            if (user.UserId is null)
                 return BadRequest();
-            }
-            var dbUser = this.context.User.Where(x=>x.UserId == user.UserId).FirstOrDefault();
+
+            var dbUser = await this.usersRepository.GetUserById(user.UserId);
             if (dbUser != null)
             {
                 dbUser.LastLogin = DateTime.Now;
-                await this.context.SaveChangesAsync();
-                return this.Ok(dbUser);
+                await this.usersRepository.UpdateUser(dbUser);
+                return Ok(dbUser);
             }
+
             user.AddedAt = DateTime.Now;
-            await this.context.User.AddAsync(user);
-            await this.context.SaveChangesAsync();
-            return this.Ok(user);
+            var createdUser = await this.usersRepository.CreateUser(user);
+            return Ok(createdUser);
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Update(User User)
+        public async Task<IActionResult> Update(User user)
         {
-            this.context.User.Update(User);
-            await this.context.SaveChangesAsync();
-            return this.Ok(User);
+            var updatedUser = await this.usersRepository.UpdateUser(user);
+            return Ok(updatedUser);
         }
 
-        [HttpDelete("{UserId}")]
-        public async Task<IActionResult> Delete(string UserId)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> Delete(string userId)
         {
-            var User = await this.context.User.Where(x => x.UserId == UserId).FirstAsync();
-            if (User != null)
-            {
-                this.context.User.Remove(User);
-                PublisherService publisherService = new PublisherService();
-                publisherService.DeleteUser(UserId);
-                return this.Ok(await this.context.SaveChangesAsync());
-            }
-            return NotFound();
+            var deletedRows = await this.usersRepository.DeleteUser(userId);
+            if (deletedRows == 0)
+                return NotFound();
+
+            // Perform additional cleanup or actions
+            PublisherService publisherService = new PublisherService();
+            publisherService.DeleteUser(userId);
+
+            return Ok(deletedRows);
         }
     }
 }

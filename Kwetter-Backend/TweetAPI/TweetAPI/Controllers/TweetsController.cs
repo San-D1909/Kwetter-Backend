@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TweetAPI.Models;
+using TweetAPI.Services.Interfaces;
 
 namespace TweetAPI.Controllers
 {
@@ -8,75 +9,77 @@ namespace TweetAPI.Controllers
     [Route("api/tweetapi/[controller]")]
     public class TweetsController : Controller
     {
-        private readonly ApplicationContext context;
+        private readonly ITweetRepository tweetRepository;
 
-        public TweetsController(ApplicationContext context)
+        public TweetsController(ITweetRepository tweetRepository)
         {
-            this.context = context;
+            this.tweetRepository = tweetRepository;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> Get(string? userId)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            try
+            var tweets = await this.tweetRepository.GetAllTweets();
+
+            if (tweets == null || !tweets.Any())
             {
-                if (this.context == null)
-                {
-                    return this.BadRequest("Error: Database context is null.");
-                }
-
-                var tweets = await this.context.Tweet.Where(x => x.UserId != userId).OrderByDescending(x => x.CreatedAt).ToListAsync();
-
-                if (tweets == null || !tweets.Any())
-                {
-                    return this.NotFound("No tweets found.");
-                }
-
-                return this.Ok(tweets);
+                return this.NotFound("No tweets found.");
             }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+
+            return this.Ok(tweets);
         }
 
-        [HttpGet("{TweetId:guid}")]
-        public async Task<IActionResult> GetById(Guid TweetId)
+        [HttpGet("{tweetId:guid}")]
+        public async Task<IActionResult> GetById(Guid tweetId)
         {
-            return this.Ok(await this.context.Tweet.Where(x => x.TweetId == TweetId).FirstOrDefaultAsync());
+            var tweet = await this.tweetRepository.GetTweetById(tweetId);
+
+            if (tweet == null)
+            {
+                return this.NotFound("Tweet not found.");
+            }
+
+            return this.Ok(tweet);
         }
-        
+
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUser(string? userId)
+        public async Task<IActionResult> GetByUser(string userId)
         {
-            return this.Ok(await this.context.Tweet.Where(x => x.UserId == userId).OrderByDescending(x=>x.CreatedAt).ToListAsync());
+            var tweets = await this.tweetRepository.GetTweetsByUser(userId);
+
+            if (tweets == null || !tweets.Any())
+            {
+                return this.NotFound("No tweets found for the specified user.");
+            }
+
+            return this.Ok(tweets);
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Create(Tweet tweet)
         {
-            tweet.IsArchived = false;
-            tweet.IsDisabled = false;
-            tweet.CreatedAt = DateTime.Now;
-            await this.context.Tweet.AddAsync(tweet);
-            await this.context.SaveChangesAsync();
-            return this.Ok(tweet);
+            var createdTweet = await this.tweetRepository.CreateTweet(tweet);
+            return this.Ok(createdTweet);
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Update(Tweet Tweet)
+        public async Task<IActionResult> Update(Tweet tweet)
         {
-            this.context.Tweet.Update(Tweet);
-            await this.context.SaveChangesAsync();
-            return this.Ok(Tweet);
+            var updatedTweet = await this.tweetRepository.UpdateTweet(tweet);
+            return this.Ok(updatedTweet);
         }
 
-        [HttpDelete("{TweetId:guid}")]
-        public async Task<IActionResult> Delete(Guid TweetId)
+        [HttpDelete("{tweetId:guid}")]
+        public async Task<IActionResult> Delete(Guid tweetId)
         {
-            var tweet = await this.context.Tweet.Where(x => x.TweetId == TweetId).FirstAsync();
-            this.context.Tweet.Remove(tweet);
-            return this.Ok(await this.context.SaveChangesAsync());
+            var affectedRows = await this.tweetRepository.DeleteTweet(tweetId);
+
+            if (affectedRows > 0)
+            {
+                return this.Ok($"Deleted {affectedRows} tweet(s).");
+            }
+
+            return this.NotFound("Tweet not found.");
         }
     }
 }

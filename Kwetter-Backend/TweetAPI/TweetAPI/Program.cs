@@ -17,6 +17,7 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<ISubscriberService, SubscriberService>();
+        builder.Services.AddScoped<ITweetRepository, TweetRepository>();
 
         var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
 

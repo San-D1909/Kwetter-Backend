@@ -11,7 +11,7 @@ namespace UserProfileAPI.Services
            string exchange = "userExchange";
             string routingKey = "userDelete";
 
-            IConnectionFactory factory = new ConnectionFactory { HostName = "host.docker.internal", Port = 5672, Password = "guest", UserName = "guest" };
+            IConnectionFactory factory = new ConnectionFactory { HostName = "iqadot.switzerlandnorth.cloudapp.azure.com", Port = 5672, Password = "guest", UserName = "guest" };
             using (var connection = factory.CreateConnection())
             {
                 IModel channel = connection.CreateModel();

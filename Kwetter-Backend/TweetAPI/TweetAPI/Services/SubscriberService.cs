@@ -25,7 +25,7 @@ namespace TweetAPI.Services
 
             IConnectionFactory connectionFactory = new ConnectionFactory()
             {
-                HostName = "host.docker.internal",
+                HostName = "iqadot.switzerlandnorth.cloudapp.azure.com",
                 Port = 5672,
                 UserName = "guest",
                 Password = "guest",

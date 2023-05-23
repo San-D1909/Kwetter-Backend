@@ -7,7 +7,7 @@ on:
     branches: [ "main" , "testing" ]
 
 jobs:
-  build-and-test-AuthenticationAPI:
+  build AuthenticationAPI:
     runs-on: ubuntu-latest
     
     steps:
@@ -25,7 +25,7 @@ jobs:
       working-directory: Kwetter-Backend/AuthenticationAPI/
       run: dotnet build --no-restore -warnaserror
       
-  build-and-test-MessageAPI:
+  build MessageAPI:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -42,7 +42,7 @@ jobs:
       working-directory: Kwetter-Backend/MessageAPI/
       run: dotnet build --no-restore -warnaserror
     
-  build-and-test-UsersAPI:
+  build UsersAPI:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
       working-directory: Kwetter-Backend/UserProfileAPI/
       run: dotnet build --no-restore -warnaserror
   
-  build-and-test-TweetAPI:
+  build TweetAPI:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -76,7 +76,7 @@ jobs:
       working-directory: Kwetter-Backend/TweetAPI/
       run: dotnet build --no-restore -warnaserror
       
-  build-and-test-TimelineAPI:
+  build TimelineAPI:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3

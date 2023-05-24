@@ -23,16 +23,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: Kwetter-Backend/TweetAPI/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tweetapi:latest
+      # - name: Build and push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     file: Kwetter-Backend/TweetAPI/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/tweetapi:latest
 
-      # - name: Build and push Docker Compose 
-      #   run: | 
-      #     cd Kwetter-Backend
-      #     docker-compose build 
-      #     docker-compose push
+      - name: Build and push Docker Compose 
+        run: | 
+          cd Kwetter-Backend
+          docker-compose build 
+          docker-compose push

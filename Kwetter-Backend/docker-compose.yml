@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   authenticationapi:
-    image: ${DOCKER_REGISTRY-}authenticationapi
+    image: sander1909/authenticationapi
     build:
       context: .
       dockerfile: AuthenticationAPI/AuthenticationAPI/Dockerfile
@@ -10,7 +10,7 @@ services:
         - "5056:80"
 
   messageapi:
-    image: ${DOCKER_REGISTRY-}messageapi
+    image: sander1909/messageapi
     build:
       context: .
       dockerfile: MessageAPI/MessageAPI/Dockerfile
@@ -18,7 +18,7 @@ services:
         - "5051:80"
 
   timelineapi:
-    image: ${DOCKER_REGISTRY-}timelineapi
+    image: sander1909/timelineapi
     build:
       context: .
       dockerfile: TimelineAPI/TimelineAPI/Dockerfile
@@ -26,7 +26,7 @@ services:
         - "5052:80"
 
   tweetapi:
-    image: ${DOCKER_REGISTRY-}tweetapi
+    image: sander1909/tweetapi
     build:
       context: .
       dockerfile: TweetAPI/TweetAPI/Dockerfile
@@ -34,7 +34,7 @@ services:
         - "5053:80"
 
   userprofileapi:
-    image: ${DOCKER_REGISTRY-}userprofileapi
+    image: sander1909/userprofileapi
     build:
       context: .
       dockerfile: UserProfileAPI/UserProfileAPI/Dockerfile
@@ -42,7 +42,7 @@ services:
         - "5054:80"
 
   gateway:
-    image: ${DOCKER_REGISTRY-}gateway
+    image: sander1909/gateway
     build:
       context: .
       dockerfile: Gateway/Dockerfile

@@ -12,14 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Login via Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      # - name: Checkout repository
-      #   uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v1
@@ -41,8 +34,9 @@ jobs:
       #   run: |
       #     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-      # - name: login to azure
-      - uses: azure/login@v1
+
+      - name: Login via Azure CLI
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       

@@ -46,4 +46,4 @@ jobs:
       
       - name: Update Kubernetes Deployment
         run: |
-        kubectl apply -f prototypes/Kubernetes/deployment.yaml
+          kubectl apply -f prototypes/Kubernetes/deployment.yaml

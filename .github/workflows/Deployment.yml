@@ -29,6 +29,9 @@ jobs:
       #     cd Kwetter-Backend
       #     docker-compose build 
       #     docker-compose push
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
       - name: login to azure
         uses: azure/login@v1

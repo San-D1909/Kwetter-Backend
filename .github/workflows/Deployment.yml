@@ -13,6 +13,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          files: '["**/*.cs"]'
+        env:
+          RMQCONNECTIONSTRING: ${{ secrets.RABBITMQ_URL }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -29,10 +35,6 @@ jobs:
           cd Kwetter-Backend
           docker-compose build 
           docker-compose push
-
-      - name: Install Azure CLI
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
       - name: Login via Azure CLI
         uses: azure/login@v1

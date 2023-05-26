@@ -11,8 +11,10 @@ namespace TweetAPI.Services
             string routingKey = "tweetDemo";
             string message = "Hello, RabbitMQ! From TweetService";
 
-            IConnectionFactory factory = new ConnectionFactory { HostName = "iqadot.switzerlandnorth.cloudapp.azure.com", Port = 5672, Password = "guest", UserName = "guest" };
-            var connection = factory.CreateConnection();
+            IConnectionFactory connectionFactory = new ConnectionFactory();
+            connectionFactory.Uri = new Uri("#{RMQCONNECTIONSTRING}#");
+
+            var connection = connectionFactory.CreateConnection();
             IModel channel = connection.CreateModel();
             // declare a queue
             channel.ExchangeDeclare(exchange, ExchangeType.Topic, true);

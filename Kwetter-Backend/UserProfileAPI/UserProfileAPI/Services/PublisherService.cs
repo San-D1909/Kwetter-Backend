@@ -11,8 +11,10 @@ namespace UserProfileAPI.Services
            string exchange = "userExchange";
             string routingKey = "userDelete";
 
-            IConnectionFactory factory = new ConnectionFactory { HostName = "iqadot.switzerlandnorth.cloudapp.azure.com", Port = 5672, Password = "guest", UserName = "guest" };
-            using (var connection = factory.CreateConnection())
+            IConnectionFactory connectionFactory = new ConnectionFactory();
+            connectionFactory.Uri = new Uri("#{RMQCONNECTIONSTRING}#");
+            
+            using (var connection = connectionFactory.CreateConnection())
             {
                 IModel channel = connection.CreateModel();
                 // declare a queue

@@ -13,13 +13,9 @@ namespace UserProfileAPI.Services
             string routingKey = "tweetDemo";
             string queue = "tweet";
 
-            IConnectionFactory connectionFactory = new ConnectionFactory()
-            {
-                HostName = "iqadot.switzerlandnorth.cloudapp.azure.com",
-                Port = 5672,
-                UserName = "guest",
-                Password = "guest",
-            };
+            IConnectionFactory connectionFactory = new ConnectionFactory();
+            connectionFactory.Uri = new Uri("#{RMQCONNECTIONSTRING}#");
+
             IConnection connection = connectionFactory.CreateConnection();
 
             IModel channel = connection.CreateModel();

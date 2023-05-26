@@ -1,0 +1,21 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: cschleiden/replace-tokens@v1
+        with:
+          files: '["**/*.cs"]'
+        env:
+          RMQCONNECTIONSTRING: ${{ secrets.RMQ_CONNECTION_STRING }}
+          TWEETDBCONNECTIONSTRING: ${{ secrets.TWEETDB_CONNECTION_STRING }}
+          USERDBCONNECTIONSTRING: ${{ secrets.USERDB_CONNECTION_STRING }}
+          AUTHDBCONNECTIONSTRING: ${{ secrets.AUTHDB_CONNECTION_STRING }}

@@ -173,6 +173,7 @@ jobs:
       - name: Build and push Docker Compose 
         run: | 
           export DOCKER_CLIENT_TIMEOUT=600
+          ls
           cd Kwetter-Backend
           docker-compose build 
           docker-compose push

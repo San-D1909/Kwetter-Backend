@@ -35,7 +35,7 @@ jobs:
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
       - name: Login via Azure CLI
-        uses: azure/actions/login@v1
+        uses: actions/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
 

@@ -194,6 +194,9 @@ jobs:
         run: |
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group Resource2 --name Kluster
-          kubectl apply deployment.yaml -n ingress-nginx
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
+          kubectl apply -f https://raw.githubusercontent.com/San-D1909/Kwetter-infra/main/ingress.yaml --namespace ingress-nginx
+          kubectl apply -f https://raw.githubusercontent.com/San-D1909/Kwetter-infra/main/deployment.yaml --namespace ingress-nginx
+          kubectl apply -f https://raw.githubusercontent.com/San-D1909/Kwetter-infra/main/ingress.yaml --namespace ingress-nginx
           kubectl rollout restart deployment tweetapi -n ingress-nginx
           kubectl rollout restart deployment userprofileapi -n ingress-nginx

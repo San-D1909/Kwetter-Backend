@@ -173,10 +173,8 @@ jobs:
       - name: Build and push Docker Compose 
         run: | 
           export DOCKER_CLIENT_TIMEOUT=600
-          ls
-          cd Kwetter-Backend
-          docker-compose build 
-          docker-compose push
+          docker-compose -f Kwetter-Backend/docker-compose.yml build
+          docker-compose -f Kwetter-Backend/docker-compose.yml push 
   
   azure-deploy:
     runs-on: ubuntu-latest

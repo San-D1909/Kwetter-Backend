@@ -14,21 +14,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      # - name: Log in to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # - name: Build and push Docker Compose 
-      #   run: | 
-      #     export DOCKER_CLIENT_TIMEOUT=600
-      #     cd Kwetter-Backend
-      #     docker-compose build 
-      #     docker-compose push
+      - name: Build and push Docker Compose 
+        run: | 
+          export DOCKER_CLIENT_TIMEOUT=600
+          cd Kwetter-Backend
+          docker-compose build 
+          docker-compose push
 
       - name: Install Azure CLI
         run: |
@@ -39,10 +39,8 @@ jobs:
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
  
-      # - name: Azure AKS Set Context
-      #   run: |
-      #     az aks get-credentials --name xdcvbnm --resource-group mhmbhh
-      
-      # - name: Update Kubernetes Deployment
-      #   run: |
-      #     kubectl apply -f prototypes/Kubernetes/deployment.yaml
+      - name: Azure AKS Set Context
+        run: |
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          az aks get-credentials --resource-group KwetterResource --name KlusterKwetter
+          kubectl rollout restart deployment tweetapi -n ingress-nginx

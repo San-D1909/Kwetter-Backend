@@ -38,7 +38,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-      
+
       # - name: Azure AKS Set Context
       #   run: |
       #     az aks get-credentials --name xdcvbnm --resource-group mhmbhh

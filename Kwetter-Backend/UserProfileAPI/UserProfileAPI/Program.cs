@@ -17,6 +17,7 @@ internal class Program
 
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<ISubscriberService, SubscriberService>();
+        builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
         var cs = builder.Configuration.GetConnectionString("DefaultConnection")!;
         builder.Services.AddDbContext<ApplicationContext>(options =>

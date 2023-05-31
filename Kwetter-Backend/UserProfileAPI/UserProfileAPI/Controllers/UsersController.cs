@@ -23,58 +23,98 @@ namespace UserProfileAPI.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            var users = await this.usersRepository.GetUsers();
-            return Ok(users);
+            try
+            {
+                var users = await this.usersRepository.GetUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform other error handling actions
+                return StatusCode(500, "An error occurred while retrieving users.");
+            }
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetById(string userId)
         {
-            var user = await this.usersRepository.GetUserById(userId);
-            if (user == null)
-                return NotFound();
+            try
+            {
+                var user = await this.usersRepository.GetUserById(userId);
+                if (user == null)
+                    return NotFound();
 
-            return Ok(user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform other error handling actions
+                return StatusCode(500, "An error occurred while retrieving the user.");
+            }
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Create(User user)
         {
-            if (user.UserId is null)
-                return BadRequest();
-
-            var dbUser = await this.usersRepository.GetUserById(user.UserId);
-            if (dbUser != null)
+            try
             {
-                dbUser.LastLogin = DateTime.Now;
-                await this.usersRepository.UpdateUser(dbUser);
-                return Ok(dbUser);
-            }
+                if (user.UserId is null)
+                    return BadRequest();
 
-            user.AddedAt = DateTime.Now;
-            var createdUser = await this.usersRepository.CreateUser(user);
-            return Ok(createdUser);
+                var dbUser = await this.usersRepository.GetUserById(user.UserId);
+                if (dbUser != null)
+                {
+                    dbUser.LastLogin = DateTime.Now;
+                    await this.usersRepository.UpdateUser(dbUser);
+                    return Ok(dbUser);
+                }
+
+                user.AddedAt = DateTime.Now;
+                var createdUser = await this.usersRepository.CreateUser(user);
+                return Ok(createdUser);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform other error handling actions
+                return StatusCode(500, "An error occurred while creating the user.");
+            }
         }
 
         [HttpPut("")]
         public async Task<IActionResult> Update(User user)
         {
-            var updatedUser = await this.usersRepository.UpdateUser(user);
-            return Ok(updatedUser);
+            try
+            {
+                var updatedUser = await this.usersRepository.UpdateUser(user);
+                return Ok(updatedUser);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform other error handling actions
+                return StatusCode(500, "An error occurred while updating the user.");
+            }
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete(string userId)
         {
-            var deletedRows = await this.usersRepository.DeleteUser(userId);
-            if (deletedRows == 0)
-                return NotFound();
+            try
+            {
+                var deletedRows = await this.usersRepository.DeleteUser(userId);
+                if (deletedRows == 0)
+                    return NotFound();
 
-            // Perform additional cleanup or actions
-            PublisherService publisherService = new PublisherService();
-            publisherService.DeleteUser(userId);
+                // Perform additional cleanup or actions
+                PublisherService publisherService = new PublisherService();
+                publisherService.DeleteUser(userId);
 
-            return Ok(deletedRows);
+                return Ok(deletedRows);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform other error handling actions
+                return StatusCode(500, "An error occurred while deleting the user.");
+            }
         }
     }
 }

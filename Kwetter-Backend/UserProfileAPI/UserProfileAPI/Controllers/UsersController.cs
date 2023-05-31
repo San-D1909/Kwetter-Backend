@@ -28,9 +28,8 @@ namespace UserProfileAPI.Controllers
                 var users = await this.usersRepository.GetUsers();
                 return Ok(users);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception or perform other error handling actions
                 return StatusCode(500, "An error occurred while retrieving users.");
             }
         }
@@ -46,9 +45,8 @@ namespace UserProfileAPI.Controllers
 
                 return Ok(user);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception or perform other error handling actions
                 return StatusCode(500, "An error occurred while retrieving the user.");
             }
         }
@@ -73,9 +71,8 @@ namespace UserProfileAPI.Controllers
                 var createdUser = await this.usersRepository.CreateUser(user);
                 return Ok(createdUser);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception or perform other error handling actions
                 return StatusCode(500, "An error occurred while creating the user.");
             }
         }
@@ -88,9 +85,8 @@ namespace UserProfileAPI.Controllers
                 var updatedUser = await this.usersRepository.UpdateUser(user);
                 return Ok(updatedUser);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception or perform other error handling actions
                 return StatusCode(500, "An error occurred while updating the user.");
             }
         }
@@ -110,9 +106,8 @@ namespace UserProfileAPI.Controllers
 
                 return Ok(deletedRows);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception or perform other error handling actions
                 return StatusCode(500, "An error occurred while deleting the user.");
             }
         }

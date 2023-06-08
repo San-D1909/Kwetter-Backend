@@ -34,12 +34,12 @@ namespace TweetAPI.Controllers
         {
             var tweets = await this.tweetRepository.GetTweetById(userId);
 
-            if (tweet == null)
+            if (tweets == null)
             {
                 return this.NotFound("No timeline found!");
             }
 
-            return this.Ok(tweet);
+            return this.Ok(tweets);
         }
 
         [HttpGet("user/{userId}")]

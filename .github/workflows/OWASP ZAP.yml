@@ -1,0 +1,21 @@
+name: OWASP ZAP
+
+on:
+  push:
+    branches: [ "main" , "testing"]
+  pull_request:
+    branches: [ "main" , "testing" ]
+
+jobs:
+  build-AuthenticationAPI:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: OWASP ZAP Full Scan
+      uses: zaproxy/action-full-scan@v0.4.0

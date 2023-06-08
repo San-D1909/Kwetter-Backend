@@ -7,7 +7,7 @@ on:
     branches: [ "main" , "testing" ]
 
 jobs:
-  build-AuthenticationAPI:
+  OWASP-ZAP-SCAN:
     runs-on: ubuntu-latest
     
     steps:

@@ -32,7 +32,7 @@ namespace TweetAPI.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetById(string userId)
         {
-            var tweet = await this.tweetRepository.GetTweetById(userId);
+            var tweets = await this.tweetRepository.GetTweetById(userId);
 
             if (tweet == null)
             {

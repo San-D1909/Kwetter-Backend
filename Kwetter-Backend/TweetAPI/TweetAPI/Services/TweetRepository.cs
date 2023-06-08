@@ -18,9 +18,9 @@ namespace TweetAPI.Services
             return await this.context.Tweet.OrderByDescending(x => x.CreatedAt).ToListAsync();
         }
 
-        public async Task<Tweet?> GetTweetById(Guid tweetId)
+        public async Task<IEnumerable<Tweet>> GetTweetById(string userId)
         {
-            return await this.context.Tweet.FirstOrDefaultAsync(x => x.TweetId == tweetId);
+            return await this.context.Tweet.Where(x => x.UserId != userId).OrderByDescending(x => x.CreatedAt).ToListAsync();
         }
 
         public async Task<IEnumerable<Tweet>> GetTweetsByUser(string userId)

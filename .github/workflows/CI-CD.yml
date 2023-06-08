@@ -150,6 +150,7 @@ jobs:
 #          dotnet sonarscanner begin /k:"San-D1909_Kwetter-Backend_Kwetter-Backend_TweetAPI_TweetAPI.sln" /o:"oneblinq1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.branch.name=main
 #          dotnet build
 #          dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
   docker-push:
     runs-on: ubuntu-latest
     needs: [build-MessageAPI, build-AuthenticationAPI, build-UsersAPI,build-TweetAPI,build-TimelineAPI,RunTests-Tweets,RunTests-Users,sonarqube_analysis ]
@@ -200,3 +201,17 @@ jobs:
           kubectl apply -f https://raw.githubusercontent.com/San-D1909/Kwetter-infra/main/ingress.yaml --namespace ingress-nginx
           kubectl rollout restart deployment tweetapi -n ingress-nginx
           kubectl rollout restart deployment userprofileapi -n ingress-nginx
+          
+  OWASP-ZAP:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          
+      - name: ZAP Scan 
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: https://40.76.152.212/

@@ -29,14 +29,14 @@ namespace TweetAPI.Controllers
             return this.Ok(tweets);
         }
 
-        [HttpGet("{tweetId:guid}")]
-        public async Task<IActionResult> GetById(Guid tweetId)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetById(string userId)
         {
-            var tweet = await this.tweetRepository.GetTweetById(tweetId);
+            var tweet = await this.tweetRepository.GetTweetById(userId);
 
             if (tweet == null)
             {
-                return this.NotFound("Tweet not found.");
+                return this.NotFound("No timeline found!");
             }
 
             return this.Ok(tweet);

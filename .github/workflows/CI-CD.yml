@@ -215,4 +215,4 @@ jobs:
       - name: ZAP Scan 
         uses: zaproxy/action-full-scan@v0.4.0
         with:
-          target: https://40.76.152.212/
+          target: https://sander.mdjansen.nl/
